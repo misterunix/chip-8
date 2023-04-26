@@ -4,6 +4,13 @@ import "fmt"
 
 func (v *Chip8) Execute() {
 	v.Draw = false
+	if v.PC >= uint16(len(v.Memory)) || v.PC+1 >= uint16(len(v.Memory)) {
+		if v.debug {
+			v.DebugString = fmt.Sprintf("Invalid PC: %04X %04X", v.PC, v.PC+1)
+		}
+		v.Reset()
+	}
+
 	v.OpCode = uint16(v.Memory[v.PC])<<8 | uint16(v.Memory[v.PC+1]) // Get the opcode
 	if v.debug {
 		v.DebugString = fmt.Sprintf("%04X %04X ", v.PC, v.OpCode)
@@ -11,8 +18,20 @@ func (v *Chip8) Execute() {
 	v.PC += 2
 	// x register is the first nibble of the opcode
 	v.x = uint8((v.OpCode & 0x0F00) >> 8) // Decode Vx register
+	if v.x > 0x0F {
+		if v.debug {
+			v.DebugString += fmt.Sprintf("Invalid opcode: %04X v%X\n", v.OpCode, v.x)
+		}
+		v.Reset()
+	}
 	// y register is the second nibble of the opcode
 	v.y = uint8((v.OpCode & 0x00F0) >> 4) // Decode Vy register
+	if v.y > 0x0F {
+		if v.debug {
+			v.DebugString += fmt.Sprintf("Invalid opcode: %04X v%X\n", v.OpCode, v.y)
+		}
+		v.Reset()
+	}
 	//  n is the last nibble of the opcode
 	v.n = uint8(v.OpCode & 0x000F)
 	// nn is the last two bytes of the opcode

@@ -1,6 +1,7 @@
 package vm
 
 import (
+	"fmt"
 	"math/rand"
 	"os"
 	"sync"
@@ -57,7 +58,7 @@ func NewVM(model int) *Chip8 {
 	case 0:
 		v := Chip8{
 			ScreenSize: [2]int{64, 32},
-			debug:      false,
+			debug:      true,
 			Draw:       false,
 		}
 		v.DisplaySize = v.ScreenSize[0] * v.ScreenSize[1]
@@ -96,8 +97,15 @@ func (v *Chip8) Reset() {
 	v.ST = 0     // Sound timer
 	v.SP = 0     // Stack pointer
 	v.I = 0      // Index register
+	for i := 0; i < 16; i++ {
+		v.Registers[i] = 0
+	}
+	//	for i:=0;i<len(v.Memory);i++{
+	//v.Memory[i] = 0
+	//}
 	//v.Display = make([]uint8, (v.Width*v.Height)/8) // Display pixels.
 	v.clearScreen()
+	fmt.Println("Reset")
 	//v.floodDisplay()
 	v.loadFontSet()
 }

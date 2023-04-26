@@ -5,6 +5,7 @@ import (
 	"flag"
 	"image/color"
 	"log"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
@@ -160,12 +161,26 @@ func main() {
 
 	v.LoadROMFromFile(romfile) // Load the ROM file
 
-	v.Reset() // Reset the VM
+	v.Reset() // Reset the VM, this will also clear the display
+
+	go Run() // Run the VM in a goroutine so we can set the run speed.
 
 	ebiten.SetWindowSize(screenWidth, screenHeight)
-	ebiten.SetWindowTitle("jachip8")
+	ebiten.SetWindowTitle("CHIP-8")
 	if err := ebiten.RunGame(&Game{}); err != nil {
 		log.Fatal(err)
+	}
+
+}
+
+func Run() {
+	//
+	for {
+		v.Execute()
+
+		//time.Sleep(1 * time.Second)
+		//time.Sleep(500 * time.Millisecond)
+		time.Sleep(1428 * time.Microsecond) // ~ 700 Hz
 	}
 
 }
