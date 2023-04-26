@@ -6,6 +6,7 @@ import "fmt"
 func (v *Chip8) ret0x00EE() {
 	if v.debug {
 		v.DebugString += "RET"
+
 	}
 	v.SP--
 	v.PC = v.Stack[v.SP]
@@ -15,6 +16,7 @@ func (v *Chip8) ret0x00EE() {
 func (v *Chip8) jp0x1000() {
 	if v.debug {
 		v.DebugString += fmt.Sprintf("JP %04X", v.nnn)
+
 	}
 	v.PC = v.nnn
 }
@@ -23,6 +25,7 @@ func (v *Chip8) jp0x1000() {
 func (v *Chip8) call0x2000() {
 	if v.debug {
 		v.DebugString += fmt.Sprintf("CALL %04X", v.nnn)
+
 	}
 	v.Stack[v.SP] = v.PC
 	v.SP++
@@ -33,6 +36,7 @@ func (v *Chip8) call0x2000() {
 func (v *Chip8) jp0xB000() {
 	if v.debug {
 		v.DebugString += fmt.Sprintf("JP V0, %04X", v.nnn)
+
 	}
 	v.PC = v.nnn + uint16(v.Registers[0])
 }

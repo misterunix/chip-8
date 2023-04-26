@@ -6,6 +6,7 @@ import "fmt"
 func (v *Chip8) drw0xD000() {
 	if v.debug {
 		v.DebugString += fmt.Sprintf("DRW\tV%X, V%X, %X\n", v.x, v.y, v.n)
+
 	}
 	v.Draw = true
 	yi := v.Registers[v.y]

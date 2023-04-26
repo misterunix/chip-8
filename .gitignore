@@ -21,3 +21,5 @@
 go.work
 chip-8
 *.ch8
+*.c8x
+*.txt

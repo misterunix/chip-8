@@ -119,7 +119,7 @@ func (g *Game) Update() error {
 		v.Keys[0x0F] = 0
 	}
 
-	v.Execute()
+	//v.Execute()
 	return nil
 }
 

@@ -14,6 +14,7 @@ func (v *Chip8) Execute() {
 	v.OpCode = uint16(v.Memory[v.PC])<<8 | uint16(v.Memory[v.PC+1]) // Get the opcode
 	if v.debug {
 		v.DebugString = fmt.Sprintf("%04X %04X ", v.PC, v.OpCode)
+
 	}
 	v.PC += 2
 	// x register is the first nibble of the opcode
