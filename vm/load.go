@@ -2,7 +2,6 @@ package vm
 
 import (
 	"fmt"
-	"math/rand"
 )
 
 // Load I with address nnn
@@ -29,7 +28,8 @@ func (v *Chip8) ldrnd0xC000() {
 		v.DebugString += fmt.Sprintf("RND V%X, %02X", v.x, v.nn)
 
 	}
-	v.Registers[v.x] = uint8(rand.Intn(256)) & v.nn
+	v.Registers[v.x] = uint8(v.rnd.Intn(256)) & v.nn
+	fmt.Println(v.Registers[v.x])
 }
 
 // Set Vx = delay timer value

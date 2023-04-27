@@ -23,6 +23,14 @@ type Game struct {
 	keys []ebiten.Key
 }
 
+type debugarea struct {
+	debugstring [20]string
+	first       int
+	last        int
+}
+
+var d debugarea
+
 func NewGame() *Game {
 	g := &Game{}
 
@@ -133,9 +141,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			index := v.XYToIndex(uint8(x), uint8(y))
 			t := v.Display[index]
 			if t == 1 {
-				vector.DrawFilledRect(screen, float32(x*10), float32(y*10), float32(10), float32(10), color.White, false)
+				vector.DrawFilledRect(screen, float32(x*5), float32(y*5), float32(5), float32(5), color.White, false)
 			} else {
-				vector.DrawFilledRect(screen, float32(x*10), float32(y*10), float32(10), float32(10), color.Black, false)
+				vector.DrawFilledRect(screen, float32(x*5), float32(y*5), float32(5), float32(5), color.Black, false)
 			}
 
 		}
@@ -156,6 +164,9 @@ func main() {
 	if romfile == "" {
 		log.Fatal("No ROM file specified")
 	}
+
+	d.first = 0
+	d.last = 0
 
 	v = vm.NewVM(0) // Create a new VM
 
@@ -179,7 +190,7 @@ func Run() {
 		v.Execute()
 
 		//time.Sleep(1 * time.Second)
-		//time.Sleep(500 * time.Millisecond)
+		//time.Sleep(1 * time.Millisecond)
 		time.Sleep(1428 * time.Microsecond) // ~ 700 Hz
 	}
 
