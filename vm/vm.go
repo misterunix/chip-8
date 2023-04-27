@@ -1,7 +1,6 @@
 package vm
 
 import (
-	"fmt"
 	"math/rand"
 	"os"
 	"sync"
@@ -105,7 +104,7 @@ func (v *Chip8) Reset() {
 	//}
 	//v.Display = make([]uint8, (v.Width*v.Height)/8) // Display pixels.
 	v.clearScreen()
-	fmt.Println("Reset")
+	//fmt.Println("Reset")
 	//v.floodDisplay()
 	v.loadFontSet()
 }

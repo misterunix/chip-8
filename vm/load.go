@@ -29,7 +29,7 @@ func (v *Chip8) ldrnd0xC000() {
 
 	}
 	v.Registers[v.x] = uint8(v.rnd.Intn(256)) & v.nn
-	fmt.Println(v.Registers[v.x])
+	//fmt.Println(v.Registers[v.x])
 }
 
 // Set Vx = delay timer value

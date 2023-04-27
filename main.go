@@ -3,9 +3,10 @@ package main
 import (
 	"chip-8/vm"
 	"flag"
+	"time"
+
 	"image/color"
 	"log"
-	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
@@ -167,6 +168,8 @@ func main() {
 
 	d.first = 0
 	d.last = 0
+
+	//guiInit()
 
 	v = vm.NewVM(0) // Create a new VM
 
