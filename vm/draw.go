@@ -4,8 +4,11 @@ import "fmt"
 
 // Draw sprite at Vx, Vy with width N
 func (v *Chip8) drw0xD000() {
-	if v.debug {
-		v.DebugString += fmt.Sprintf("DRW\tV%X, V%X, %X\n", v.x, v.y, v.n)
+	if v.Debug {
+		v.DebugString += fmt.Sprintf("DRW V%X(%x), V%X(%x), %X\n",
+			v.x, v.Registers[v.x],
+			v.y, v.Registers[v.y],
+			v.n)
 
 	}
 	v.Draw = true

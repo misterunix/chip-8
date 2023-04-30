@@ -4,7 +4,7 @@ import "fmt"
 
 // Return from subroutine
 func (v *Chip8) ret0x00EE() {
-	if v.debug {
+	if v.Debug {
 		v.DebugString += "RET"
 
 	}
@@ -14,7 +14,7 @@ func (v *Chip8) ret0x00EE() {
 
 // Jump to location nnn
 func (v *Chip8) jp0x1000() {
-	if v.debug {
+	if v.Debug {
 		v.DebugString += fmt.Sprintf("JP %04X", v.nnn)
 
 	}
@@ -23,7 +23,7 @@ func (v *Chip8) jp0x1000() {
 
 // Call subroutine
 func (v *Chip8) call0x2000() {
-	if v.debug {
+	if v.Debug {
 		v.DebugString += fmt.Sprintf("CALL %04X", v.nnn)
 
 	}
@@ -34,7 +34,7 @@ func (v *Chip8) call0x2000() {
 
 // Jump to location nnn + V0
 func (v *Chip8) jp0xB000() {
-	if v.debug {
+	if v.Debug {
 		v.DebugString += fmt.Sprintf("JP V0, %04X", v.nnn)
 
 	}

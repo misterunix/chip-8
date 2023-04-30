@@ -3,6 +3,7 @@ package main
 import (
 	"chip-8/vm"
 	"flag"
+	"fmt"
 	"image/color"
 	"log"
 	"time"
@@ -168,7 +169,7 @@ func main() {
 	d.first = 0
 	d.last = 0
 
-	v = vm.NewVM(0) // Create a new VM
+	v = vm.NewVM(0, true) // Create a new VM
 
 	v.LoadROMFromFile(romfile) // Load the ROM file
 
@@ -189,9 +190,16 @@ func Run() {
 	for {
 		v.Execute()
 
-		//time.Sleep(1 * time.Second)
-		//time.Sleep(1 * time.Millisecond)
-		time.Sleep(1428 * time.Microsecond) // ~ 700 Hz
-	}
+		switch {
+		case v.Debug:
+			fmt.Println(v.DebugString)
+			time.Sleep(500 * time.Millisecond)
+		case !v.Debug:
+			time.Sleep(1428 * time.Microsecond) // ~ 700 Hz
 
+			//time.Sleep(1 * time.Second)
+			//time.Sleep(1 * time.Millisecond)
+			//time.Sleep(1428 * time.Microsecond) // ~ 700 Hz
+		}
+	}
 }

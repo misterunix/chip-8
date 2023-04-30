@@ -32,8 +32,26 @@ type Chip8 struct {
 	n           uint8       // n nibble
 	nn          uint8       // nn byte
 	nnn         uint16      // nnn address
-	debug       bool        // debug flag
+	Debug       bool        // debug flag
 	DebugString string      // debug string
+}
+
+func (v *Chip8) FetchRegister(i uint8) uint8 {
+	if i > 0xF {
+		fmt.Println("ERROR: FetchRegister out of bounds", i)
+		v.Reset()
+		return 0
+	}
+	return v.Registers[i]
+}
+
+func (v *Chip8) StoreRegister(i uint8, val uint8) {
+	if i > 0xF {
+		fmt.Println("ERROR: StoreRegister out of bounds", i)
+		v.Reset()
+		return
+	}
+	v.Registers[i] = val
 }
 
 func (v *Chip8) init() {
@@ -53,12 +71,12 @@ func (v *Chip8) floodDisplay() {
 	}
 }
 
-func NewVM(model int) *Chip8 {
+func NewVM(model int, dbug bool) *Chip8 {
 	switch model {
 	case 0:
 		v := Chip8{
 			ScreenSize: [2]int{64, 32},
-			debug:      true,
+			Debug:      dbug,
 			Draw:       false,
 		}
 		v.DisplaySize = v.ScreenSize[0] * v.ScreenSize[1]
@@ -68,7 +86,7 @@ func NewVM(model int) *Chip8 {
 	case 1:
 		v := Chip8{
 			ScreenSize: [2]int{128, 64},
-			debug:      false,
+			Debug:      dbug,
 			Draw:       false,
 		}
 		v.DisplaySize = int(v.ScreenSize[0]) * int(v.ScreenSize[1])
@@ -79,7 +97,7 @@ func NewVM(model int) *Chip8 {
 	default:
 		v := Chip8{
 			ScreenSize: [2]int{64, 32},
-			debug:      false,
+			Debug:      dbug,
 			Draw:       false,
 		}
 		v.DisplaySize = int(v.ScreenSize[0]) * int(v.ScreenSize[1])

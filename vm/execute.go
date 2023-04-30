@@ -5,14 +5,14 @@ import "fmt"
 func (v *Chip8) Execute() {
 	v.Draw = false
 	if v.PC >= uint16(len(v.Memory)) || v.PC+1 >= uint16(len(v.Memory)) {
-		if v.debug {
+		if v.Debug {
 			v.DebugString = fmt.Sprintf("Invalid PC: %04X %04X", v.PC, v.PC+1)
 		}
 		v.Reset()
 	}
 
 	v.OpCode = uint16(v.Memory[v.PC])<<8 | uint16(v.Memory[v.PC+1]) // Get the opcode
-	if v.debug {
+	if v.Debug {
 		v.DebugString = fmt.Sprintf("%04X %04X ", v.PC, v.OpCode)
 
 	}
@@ -20,7 +20,7 @@ func (v *Chip8) Execute() {
 	// x register is the first nibble of the opcode
 	v.x = uint8((v.OpCode & 0x0F00) >> 8) // Decode Vx register
 	if v.x > 0x0F {
-		if v.debug {
+		if v.Debug {
 			v.DebugString += fmt.Sprintf("Invalid opcode: %04X v%X\n", v.OpCode, v.x)
 		}
 		v.Reset()
@@ -28,7 +28,7 @@ func (v *Chip8) Execute() {
 	// y register is the second nibble of the opcode
 	v.y = uint8((v.OpCode & 0x00F0) >> 4) // Decode Vy register
 	if v.y > 0x0F {
-		if v.debug {
+		if v.Debug {
 			v.DebugString += fmt.Sprintf("Invalid opcode: %04X v%X\n", v.OpCode, v.y)
 		}
 		v.Reset()
@@ -40,7 +40,7 @@ func (v *Chip8) Execute() {
 	// nnn is the last three bytes of the opcode
 	v.nnn = uint16(v.OpCode & 0x0FFF) // Decode NNN
 	if v.nnn > 0x0FFF {
-		if v.debug {
+		if v.Debug {
 			v.DebugString += fmt.Sprintf("Invalid opcode: %04X", v.OpCode)
 		}
 		v.Reset()
@@ -50,7 +50,7 @@ func (v *Chip8) Execute() {
 	case 0x0000:
 		switch v.OpCode & 0x00FF {
 		case 0x00E0: // Clear screen
-			if v.debug {
+			if v.Debug {
 				v.DebugString += "CLS"
 			}
 			v.clearScreen()
@@ -71,7 +71,7 @@ func (v *Chip8) Execute() {
 	case 0x6000: // Load Vx with byte nn
 		v.ld0x6000()
 	case 0x7000:
-		if v.debug {
+		if v.Debug {
 			v.DebugString += fmt.Sprintf("ADD V%X, %02X", v.x, v.nn)
 		}
 		v.Registers[v.x] += v.nn
